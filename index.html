@@ -2,38 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Budget Calculator (jQuery)</title>
+  <title>GST Calculator (jQuery)</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; background:#f4f7fb; padding:30px; }
-    .card { background:#fff; padding:20px; max-width:600px; margin:0 auto; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+    body { font-family: Arial, sans-serif; background:#fafafa; padding:30px; }
+    .card { background:#fff; padding:20px; max-width:500px; margin:0 auto; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
     h2 { margin-top:0; }
     label { display:block; margin-top:12px; font-weight:600; }
-    input { width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; }
-    button { margin-top:18px; padding:10px 16px; background:#2b7cff; color:#fff; border:none; border-radius:8px; cursor:pointer; }
-    button:hover { background:#1a5edc; }
-    .output { margin-top:20px; background:#f0f6ff; padding:12px; border-radius:8px; }
+    input, select { width:100%; padding:8px; border:1px solid #ccc; border-radius:6px; }
+    button { margin-top:18px; padding:10px 16px; background:#28a745; color:#fff; border:none; border-radius:8px; cursor:pointer; }
+    button:hover { background:#218838; }
+    .output { margin-top:20px; background:#f1f6ff; padding:12px; border-radius:8px; }
     .line { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed #ddd; }
     .line:last-child { border-bottom:none; font-weight:700; }
   </style>
 </head>
 <body>
   <div class="card">
-    <h2>Budget Calculator</h2>
-    <label>Total Amount (₹)</label>
-    <input type="number" id="amount" value="10000">
+    <h2>GST Calculator</h2>
+    <label>Amount (₹)</label>
+    <input type="number" id="amount" value="1000">
 
-    <label>Rent %</label>
-    <input type="number" id="rent" value="30">
-
-    <label>Accessories %</label>
-    <input type="number" id="accessories" value="20">
-
-    <label>Emergency %</label>
-    <input type="number" id="emergency" value="25">
-
-    <label>Savings %</label>
-    <input type="number" id="savings" value="25">
+    <label>GST %</label>
+    <select id="gst">
+      <option value="5">5%</option>
+      <option value="12">12%</option>
+      <option value="18" selected>18%</option>
+      <option value="28">28%</option>
+    </select>
 
     <button id="calcBtn">Calculate</button>
 
@@ -43,28 +39,16 @@
   <script>
     $(document).ready(function(){
       $("#calcBtn").click(function(){
-        let amount = parseFloat($("#amount").val()) || 0;
-        let rent = parseFloat($("#rent").val()) || 0;
-        let acc = parseFloat($("#accessories").val()) || 0;
-        let emer = parseFloat($("#emergency").val()) || 0;
-        let save = parseFloat($("#savings").val()) || 0;
+        let amt = parseFloat($("#amount").val()) || 0;
+        let gst = parseFloat($("#gst").val()) || 0;
 
-        let totalPercent = rent + acc + emer + save;
-        if(totalPercent !== 100){
-          alert("Percentages must sum to 100! Current = " + totalPercent + "%");
-          return;
-        }
-
-        let rentAmt = amount * rent/100;
-        let accAmt = amount * acc/100;
-        let emerAmt = amount * emer/100;
-        let saveAmt = amount * save/100;
+        let gstAmt = amt * gst/100;
+        let total = amt + gstAmt;
 
         $("#result").html(`
-          <div class='line'><span>Rent</span><span>₹${rentAmt.toFixed(2)}</span></div>
-          <div class='line'><span>Accessories</span><span>₹${accAmt.toFixed(2)}</span></div>
-          <div class='line'><span>Emergency</span><span>₹${emerAmt.toFixed(2)}</span></div>
-          <div class='line'><span>Savings</span><span>₹${saveAmt.toFixed(2)}</span></div>
+          <div class='line'><span>Actual Amount</span><span>₹${amt.toFixed(2)}</span></div>
+          <div class='line'><span>GST Amount</span><span>₹${gstAmt.toFixed(2)}</span></div>
+          <div class='line'><span>Total Amount</span><span>₹${total.toFixed(2)}</span></div>
         `);
       });
     });
